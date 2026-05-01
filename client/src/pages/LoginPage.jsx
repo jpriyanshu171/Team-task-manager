@@ -1,0 +1,74 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import AuthShell from "../components/AuthShell.jsx";
+import ErrorAlert from "../components/ErrorAlert.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+
+const LoginPage = () => {
+  const { login } = useAuth();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      await login(form);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthShell title="Welcome back" subtitle="Sign in to manage your team projects.">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <ErrorAlert message={error} />
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Email</span>
+          <input
+            name="email"
+            type="email"
+            required
+            value={form.email}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-900"
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Password</span>
+          <input
+            name="password"
+            type="password"
+            required
+            value={form.password}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-900"
+          />
+        </label>
+        <button
+          disabled={loading}
+          className="w-full rounded-md bg-slate-900 px-4 py-2 font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {loading ? "Signing in..." : "Sign in"}
+        </button>
+        <p className="text-center text-sm text-slate-500">
+          Need an account?{" "}
+          <Link className="font-medium text-slate-950 underline" to="/signup">
+            Create one
+          </Link>
+        </p>
+      </form>
+    </AuthShell>
+  );
+};
+
+export default LoginPage;
