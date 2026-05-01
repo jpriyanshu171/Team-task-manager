@@ -131,6 +131,35 @@ Frontend:
 2. Set `VITE_API_URL` to the deployed backend URL plus `/api`.
 3. Run `npm run build` and publish the `dist` directory.
 
+## Vercel Deployment Alternative
+
+This repository also includes `vercel.json` and `api/index.js` so it can run on Vercel as a React static build plus serverless Express API.
+
+1. Import the GitHub repository in Vercel.
+2. Keep the root directory as the repository root.
+3. Add environment variables:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `NODE_ENV=production`
+4. Deploy.
+
+The frontend calls `/api`, so the same Vercel URL serves both the UI and API routes.
+
+## Netlify Deployment Alternative
+
+This repository also includes `netlify.toml` and `netlify/functions/api.js` so Netlify can serve the React build and route `/api/*` requests to a serverless Express function.
+
+1. Import the GitHub repository in Netlify.
+2. Keep the base directory as the repository root.
+3. Build command: `npm run build`
+4. Publish directory: `client/dist`
+5. Functions directory: `netlify/functions`
+6. Add environment variables:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `NODE_ENV=production`
+7. Deploy.
+
 ## Notes
 
 - The project creator is automatically included in each project's `teamMembers`.

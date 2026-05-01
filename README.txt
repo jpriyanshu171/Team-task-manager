@@ -52,6 +52,27 @@ Deployment:
   Build command: npm run build
   Start command: npm start
 
+Vercel Alternative:
+- Import the GitHub repository in Vercel.
+- Keep root directory as the repository root.
+- Add environment variables:
+  MONGO_URI
+  JWT_SECRET
+  NODE_ENV=production
+- The project includes vercel.json and api/index.js.
+- The same Vercel URL serves the React app and /api routes.
+
+Netlify Alternative:
+- Import the GitHub repository in Netlify.
+- Build command: npm run build
+- Publish directory: client/dist
+- Functions directory: netlify/functions
+- Add environment variables:
+  MONGO_URI
+  JWT_SECRET
+  NODE_ENV=production
+- The project includes netlify.toml and netlify/functions/api.js.
+
 API Routes:
 - POST /api/auth/signup
 - POST /api/auth/login
